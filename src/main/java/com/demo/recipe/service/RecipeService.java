@@ -24,18 +24,18 @@ public class RecipeService {
      * This method return all recipe base on filters
      * @param vegetarian
      * @param servings
-     * @param includeIngredients
-     * @param excludeIngredients
-     * @param instructionsQuery
+     * @param includeIngreds
+     * @param excludeIngreds
+     * @param instructQuery
      * @return
      */
     @Transactional(readOnly = true)
-    public List<Recipe> getAllRecipes(Boolean vegetarian, Integer servings, List<String> includeIngredients, List<String> excludeIngredients, String instructionsQuery) {
+    public List<Recipe> getAllRecipes(Boolean vegetarian, Integer servings, List<String> includeIngreds, List<String> excludeIngreds, String instructQuery) {
         return recipeRepository.findAll(Specification.where(filterByVegetarian(vegetarian))
                 .and(filterByServings(servings))
-                .and(filterByIncludeIngredients(includeIngredients))
-                .and(filterByExcludeIngredients(excludeIngredients))
-                .and(filterByInstructions(instructionsQuery)));
+                .and(filterByIncludeIngredients(includeIngreds))
+                .and(filterByExcludeIngredients(excludeIngreds))
+                .and(filterByInstructions(instructQuery)));
     }
 
     @Transactional(readOnly = true)
