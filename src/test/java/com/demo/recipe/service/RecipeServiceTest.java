@@ -64,11 +64,18 @@ class RecipeServiceTest {
     @Test
     void shouldGetRecipeById() {
         when(recipeRepository.findById(1L)).thenReturn(Optional.of(testRecipe));
-
         Optional<Recipe> result = recipeService.getRecipeById(1L);
-
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Pasta");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSaveFails() {
+        when(recipeRepository.save(any(Recipe.class))).thenThrow(new RuntimeException("Database error"));
+        
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            recipeService.saveRecipe(testRecipe);
+        });
     }
 
     @Test
@@ -83,9 +90,7 @@ class RecipeServiceTest {
     @Test
     void shouldDeleteRecipe() {
         doNothing().when(recipeRepository).deleteById(1L);
-
         recipeService.deleteRecipe(1L);
-
         verify(recipeRepository, times(1)).deleteById(1L);
     }
 }

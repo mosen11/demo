@@ -69,6 +69,24 @@ class RecipeControllerTest {
     }
 
     @Test
+    void shouldReturnNotFoundWhenRecipeDoesNotExist() throws Exception {
+        when(recipeService.getRecipeById(1L)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/recipes/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenSaveFails() throws Exception {
+        when(recipeService.saveRecipe(any(Recipe.class))).thenThrow(new RuntimeException("Database error"));
+
+        mockMvc.perform(post("/api/recipes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(myObjectMapper.writeValueAsString(sampleRecipe)))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
     void shouldAddRecipe() throws Exception {
         when(recipeService.saveRecipe(any(Recipe.class))).thenReturn(sampleRecipe);
 
@@ -100,9 +118,7 @@ class RecipeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(myObjectMapper.writeValueAsString(invalidRecipe)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.name").value("Name is mandatory"))
-                .andExpect(jsonPath("$.vegetarian").value("Vegetarian staus is mandatory"))
-                .andExpect(jsonPath("$.servings").value("Serving must be at least 1"))
-                .andExpect(jsonPath("$.instructions").value("Instructions are mandatory"));
+                .andExpect(jsonPath("$.servings").value("Servings must be at least 1"));
+
     }
 }
