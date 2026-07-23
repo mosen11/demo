@@ -23,6 +23,10 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @NotBlank(message = "Name is mandatory")
     private String name;
 
