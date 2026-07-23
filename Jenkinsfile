@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         // Replace with your Docker Hub username
-        DOCKER_HUB_USER = 'mosen11@gmail.com'
-        IMAGE_NAME = 'recipe-demo'
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
+        DOCKER_HUB_USER = 'mosen111'
+        IMAGE_NAME = 'demo'
+        IMAGE_TAG = 'v4'
         // Replace with the ID of the credentials you created in Jenkins for Docker Hub
         DOCKER_HUB_CREDS = 'docker-hub-credentials'
     }
