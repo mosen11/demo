@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: demo
-          image: your-dockerhub-username/recipe-demo:latest
+          image: mosen111/demo:v4
           ports:
             - containerPort: 8080
           env:
