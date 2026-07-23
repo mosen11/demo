@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/recipes")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "Recipes", description = "Recipe management APIs")
 public class RecipeController {
 
     private final RecipeService recipeService;
-
-    @Autowired
-    public RecipeController(RecipeService recipeService) {
-        this.recipeService = recipeService;
-    }
 
     @GetMapping
     @Operation(summary = "Fetch all recipes with optional filtering")

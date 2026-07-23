@@ -15,16 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class RecipeService {
 
 
     private final RecipeRepository recipeRepository;
-
-    @Autowired
-    public RecipeService(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
-    }
 
 
     /**

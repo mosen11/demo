@@ -41,7 +41,4 @@ public class Recipe {
     @Column(length = 2000)
     private String instructions;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
