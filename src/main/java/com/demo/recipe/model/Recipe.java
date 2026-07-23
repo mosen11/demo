@@ -40,4 +40,8 @@ public class Recipe {
     @NotBlank(message = "Instructions are mandatory")
     @Column(length = 2000)
     private String instructions;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
