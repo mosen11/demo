@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: demo
+          image: your-dockerhub-username/recipe-demo:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_CONFIG_LOCATION
+              value: /etc/config/application.yml
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: demo-db-secret
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-db-secret
+                  key: password
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: demo-config

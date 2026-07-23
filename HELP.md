@@ -1,5 +1,5 @@
 # Getting Started
-execute command ./mvnw spring-boot:run or if you using Intellij IDEA, run the main class `com.demo.recipe.RecipeApplication` to start the application.
+run command ./mvnw spring-boot:run or if you using Intellij IDEA, run the main class `com.demo.recipe.RecipeApplication` to start the application.
 
 DB: The H2 DB is running as an in-memory database. You can access the H2 console at `http://localhost:8080/h2-console` with the following credentials: SA
 

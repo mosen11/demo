@@ -14,9 +14,9 @@ import java.util.Set;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Recipe {
 
     @Id
@@ -35,7 +35,6 @@ public class Recipe {
     @ElementCollection
     @CollectionTable(name = "recipe_ingredients", joinColumns = @JoinColumn(name = "recipe_id"))
     @Column(name = "ingredient")
-    @Builder.Default
     private Set<String> ingredients = new HashSet<>();
 
     @NotBlank(message = "Instructions are mandatory")

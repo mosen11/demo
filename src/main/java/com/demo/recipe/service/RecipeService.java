@@ -22,20 +22,20 @@ public class RecipeService {
 
     /**
      * This method return all recipe base on filters
-     * @param vegetarian
-     * @param servings
-     * @param includeIngreds
-     * @param excludeIngreds
-     * @param instructQuery
-     * @return
+     * @param vegetarian Filter by vegetarian status
+     * @param servings Filter by number of servings
+     * @param includeIngredients Include recipes containing these ingredients
+     * @param excludeIngredients Exclude recipes containing these ingredients
+     * @param instructionsQuery Filter by text in instructions
+     * @return List of matching recipes
      */
     @Transactional(readOnly = true)
-    public List<Recipe> getAllRecipes(Boolean vegetarian, Integer servings, List<String> includeIngreds, List<String> excludeIngreds, String instructQuery) {
+    public List<Recipe> getAllRecipes(Boolean vegetarian, Integer servings, List<String> includeIngredients, List<String> excludeIngredients, String instructionsQuery) {
         return recipeRepository.findAll(Specification.where(filterByVegetarian(vegetarian))
                 .and(filterByServings(servings))
-                .and(filterByIncludeIngredients(includeIngreds))
-                .and(filterByExcludeIngredients(excludeIngreds))
-                .and(filterByInstructions(instructQuery)));
+                .and(filterByIncludeIngredients(includeIngredients))
+                .and(filterByExcludeIngredients(excludeIngredients))
+                .and(filterByInstructions(instructionsQuery)));
     }
 
     @Transactional(readOnly = true)
@@ -89,7 +89,7 @@ public class RecipeService {
             
             List<Predicate> subPredicates = new ArrayList<>();
             for (String ingredient : excludeIngredients) {
-                subPredicates.add(cb.like(subIngredientsJoin, "%" + ingredient + "%"));
+                subPredicates.add(cb.like(cb.lower(subIngredientsJoin), "%" + ingredient.toLowerCase() + "%"));
             }
             
             subquery.select(subRoot.get("id")).where(cb.or(subPredicates.toArray(new Predicate[0])));
@@ -100,6 +100,6 @@ public class RecipeService {
 
     private Specification<Recipe> filterByInstructions(String instructionsQuery) {
         return (root, query, cb) -> instructionsQuery == null || instructionsQuery.isBlank() ? null :
-                cb.like(root.get("instructions"), "%" + instructionsQuery + "%");
+                cb.like(cb.lower(root.get("instructions")), "%" + instructionsQuery.toLowerCase() + "%");
     }
 }
